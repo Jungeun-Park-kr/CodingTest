@@ -12,8 +12,6 @@ int main(void)
         cin >> num;
         remains.insert(num%42); // 42의 나머지 넣기
     }
-
     cout << remains.size() << "\n";
-
     return 0;
 }
