@@ -1,47 +1,42 @@
 #include <iostream>
 #include <queue>
 using namespace std;
-int M, N, tomato[1000][1000], day, raped_cnt;
-queue<pair<int, int>> raped; queue<pair<int, int>> next_raped;
+int M, N, tomato[1000][1000];
+queue<pair<int, int>> ripe;
 void bfs() {
 	int dx[4] = { 0,0,-1,1 }, dy[4] = { -1,1,0,0 }, new_y, new_x;
 	pair<int, int> tmp;
-	while (true) {
-		raped = next_raped;
-		next_raped = queue<pair<int, int>>();
-		if (raped.size() == 0) break;
-		++day;
-		while (!raped.empty()) {
-			tmp = raped.front(); raped.pop();
-			for (int i = 0; i < 4; ++i) {
-				new_y = tmp.first + dy[i]; new_x = tmp.second + dx[i];
-				if (new_y < N && new_x < M && new_x >= 0 && new_y >= 0 && tomato[new_y][new_x] == 0) {
-					tomato[new_y][new_x] = 1;
-					next_raped.push({ new_y, new_x });
-					++raped_cnt; //Åä¸¶Åä ÀÍ´Â °³¼ö Ä«¿îÆ®
-				}
+	while (!ripe.empty()) {
+		tmp = ripe.front(); ripe.pop();
+		for (int i = 0; i < 4; ++i) {
+			new_y = tmp.first + dy[i]; new_x = tmp.second + dx[i];
+			if (new_y < N && new_x < M && new_x >= 0 && new_y >= 0 && tomato[new_y][new_x] == 0) {
+				tomato[new_y][new_x] = tomato[tmp.first][tmp.second]+1; // ìµëŠ” ì¼ìˆ˜ ë”í•´ì£¼ê¸°
+				ripe.push({ new_y, new_x });
 			}
 		}
 	}
-	
 }
 int main(void)
 {
-	int zero_cnt = 0;
 	cin >> M >> N;
 	for (int i = 0; i < N; ++i) {
 		for (int j = 0; j < M; ++j) {
 			cin >> tomato[i][j];
-			if (tomato[i][j] == 1) next_raped.push({ i,j }); // ÀÍÀº Åä¸¶Åä ³Ö¾îµÎ±â
-			else if (tomato[i][j] == 0) ++zero_cnt;
+			if (tomato[i][j] == 1) ripe.push({ i,j }); // ìµì€ í† ë§ˆí†  ë„£ì–´ë‘ê¸°
 		}
 	}
-
-	if (zero_cnt == 0) cout << "0\n"; // Ã³À½ºÎÅÍ ¸ğµç Åä¸¶Åä°¡ ÀÍ¾îÀÖÀ½
-	else {
-		bfs();
-		if (raped_cnt == zero_cnt) cout << day-1 << "\n";
-		else cout << "-1\n"; // Åä¸¶Åä°¡ ¸ğµÎ ÀÍÁö ¸øÇÔ
+	bfs();
+	int day = -1;
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < M; ++j) {
+			if (tomato[i][j] == 0) { // í† ë§ˆí†  ëª¨ë‘ ëª»ìµìŒ
+				cout << "-1\n";
+				return 0;
+			}
+			if (tomato[i][j] > day) day = tomato[i][j]; // ëª¨ë“  í† ë§ˆí† ê°€ ìµì€ ë‚  ì°¾ê¸°
+		}
 	}
+	cout << day-1 << "\n";
 	return 0;
 }
