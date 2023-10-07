@@ -1,22 +1,29 @@
 #include <iostream>
+#include <vector>
 using namespace std;
-int A[1000001], N, B, C;
+int N, B, C;
+vector<pair<int, int> > A;
 int main(void) {
-    unsigned long long answer = 0;
-    cin >> N; // 고사장 수
-    for(int i=0; i<N; ++i) cin >> A[i]; // 시험 인원
-    cin >> B >> C; // 총감독 감시인원, 부감독 감시인원
-
-    for(int i=0; i<N; ++i) {
-        A[i]-=B;
-        ++answer;
-        if(A[i] > 0) {
-            int quot = A[i]/C, rem = A[i]%C;
-            if(rem != 0) answer += quot+1;
-            else answer += quot;
-        }
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int tmp;
+    cin >> N;
+    for(int i=0; i<N; i++) {
+        cin >> tmp;
+        A.push_back(make_pair(tmp, 1)); // 응시자 수, 감독관 수 (총감독 필수)
     }
-    
-
-    cout << answer << "\n";
+    cin >> B >> C; // 총감독, 부감독 감시 수
+    unsigned long long res = 0;
+    for(int i=0; i<N; i++) { // 
+        A[i].first -= B; // 총감독관 수 만큼 빼기
+        if(A[i].first > 0) { // 남은 인원 부감독 수만큼
+            int quot = A[i].first/C;
+            int rem = A[i].first%C;
+            rem > 0 ? A[i].second += (quot+1) : A[i].second += quot;
+        }
+        res += A[i].second;
+    }
+    cout << res << "\n";
+    return 0;
 }
