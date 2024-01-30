@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "*.ejs": "html",
+        "utility": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "iostream": "cpp",
+        "string": "cpp",
+        "ostream": "cpp",
+        "vector": "cpp",
+        "map": "cpp",
+        "iterator": "cpp",
+        "memory": "cpp",
+        "queue": "cpp"
+    }
+}

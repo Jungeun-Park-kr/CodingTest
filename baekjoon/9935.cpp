@@ -1,0 +1,21 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+char str_stack[1000001];
+int main(void){
+    int size = 0;
+    char str[1000001], bomb_str[37];
+    cin >> str >> bomb_str;
+    int bomb_len = strlen(bomb_str);
+    int str_len = strlen(str);
+    for(int i=0; i < str_len; i++) {
+        str_stack[size++] = str[i]; // 문자열 하나씩 넣기
+        if(size >= bomb_len && 
+            (strncmp(bomb_str, str_stack+(size-bomb_len), bomb_len) == 0)) { // 폭발문자열 길이 이상일경우 검색 시작
+            size = size-bomb_len; // 폭말 문자열 길이 부분 자르기
+            for(int j=size; str_stack[j] != '\0'; j++) str_stack[j] = '\0';
+        }
+    }
+    strlen(str_stack) == 0 ? (cout << "FRULA\n") : (cout << str_stack <<"\n") ;
+    return 0;
+}
