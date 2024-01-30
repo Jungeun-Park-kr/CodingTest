@@ -50,4 +50,8 @@ int main(void) {
     }
     cout << map[X][Y] << "\n";
     return 0;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> f4919581092de181ee89637c3ad2d8c40208d5f4
